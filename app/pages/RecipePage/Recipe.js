@@ -1,28 +1,51 @@
 import React, { useEffect } from "react";
 import { Text, View, ImageBackground, StyleSheet, Image, TouchableOpacity, Dimensions, FlatList } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useDispatch } from 'react-redux'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Product from "./Recipe/Product";
 import Process from "./Recipe/Process";
+import { addingRecipe } from "../../Redux/Favourite/Favourite";
 
 const Tab = createBottomTabNavigator();
 
 const Recipe = ({ route }) => {
 
+    const dispatch = useDispatch()
+
     const data = route.params.data
 
-    const addToFav = data =>{
-        console.log(data);
+    const addToFav = async (data) => {
+        var value= [];
+        try {
+            const avalue = await AsyncStorage.getItem('cartArray')
+            if(avalue !== null){
+                value = JSON.parse(avalue);
+            }
+        } catch (e) {
+            console.log(e)
+        }
+        value.push(data)
+        dispatch(addingRecipe(value))
+        try {
+            await AsyncStorage.setItem('cartArray', JSON.stringify(value))
+            console.log('set')
+        } catch (error) {
+            console.log(error)
+        }
     }
+
+
 
     return (
         <>
             <View style={styles.imagetag}>
                 <ImageBackground source={data.recipe_img} style={styles.image}>
-                    <TouchableOpacity onPress={()=>addToFav(data)}>
+                    <TouchableOpacity onPress={() => addToFav(data)}>
                         <Icon name="heart" size={60} color="red" />
                     </TouchableOpacity>
                 </ImageBackground>

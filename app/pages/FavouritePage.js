@@ -10,8 +10,8 @@ const Stack = createStackNavigator();
 
 const FavouritePage = () => {
 
-  const { cartArray } = useSelector(state => state.favourite)
-  const data = cartArray
+    const { cartArray } = useSelector(state => state.favourite)
+    const data = [cartArray]
 
     return (
         <Stack.Navigator
@@ -20,7 +20,7 @@ const FavouritePage = () => {
             }}
             initialRouteName='recipelist'
         >
-            <Stack.Screen name="recipelist" component={RecipeList} initialParams={data}/>
+            <Stack.Screen name="recipelist" component={RecipeList} initialParams={data} />
             <Stack.Screen name="recipe" component={Recipe} />
         </Stack.Navigator>
     )

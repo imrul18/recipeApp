@@ -4,10 +4,7 @@ import { Text, View, ImageBackground, StyleSheet, Image, TouchableOpacity, Custo
 import backgroundimage from './../../assets/images/backgroundimage.jpeg'
 
 const RecipeList = ({ route, navigation }) => { 
-    const data = route.params?.data ? route.params.data : route.params
-
-    console.log(data[0])
-
+    const data = route.params?.data ? route.params.data : route.params[0]
 
     const renderItem = ({ item }) => (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('recipe', { data: item })}>

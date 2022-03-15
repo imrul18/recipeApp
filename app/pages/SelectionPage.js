@@ -1,9 +1,10 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Text, View, ImageBackground, StyleSheet, Image, TouchableOpacity } from 'react-native'
 
 import backgroundimage from './../assets/images/backgroundimage.jpeg'
 
-const SelectionPage = ({ navigation }) => {
+const SelectionPage = ({ navigation }) => {  
+
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundimage} resizeMode='cover' style={styles.backgroundimage}>
