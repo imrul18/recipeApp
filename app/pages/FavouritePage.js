@@ -1,37 +1,29 @@
 import React from "react";
-import { Text, View, ImageBackground, StyleSheet, Image } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack';
 
-import backgroundimage from './../assets/images/backgroundimage.jpeg'
-import recipe from './../assets/images/recipe.jpg'
-import favourite from './../assets/images/favourite.jpg'
+import RecipeList from "./RecipePage/RecipeList";
+import Recipe from "./RecipePage/Recipe";
+
+import { useSelector, useDispatch } from "react-redux"
+
+const Stack = createStackNavigator();
 
 const FavouritePage = () => {
-  return (
-    <View style={styles.container}>
-      <ImageBackground source={backgroundimage} resizeMode='cover' style={styles.backgroundimage}>
 
-        <Text >Favourite</Text>
+  const { cartArray } = useSelector(state => state.favourite)
+  const data = cartArray
 
-      </ImageBackground>
-    </View>
-  )
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+            initialRouteName='recipelist'
+        >
+            <Stack.Screen name="recipelist" component={RecipeList} initialParams={data}/>
+            <Stack.Screen name="recipe" component={Recipe} />
+        </Stack.Navigator>
+    )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  }, 
-  backgroundimage: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image:{
-    width: 250,
-    height: 100,
-    margin: 20,
-    borderRadius: 50,
-
-  }
-})
 export default FavouritePage

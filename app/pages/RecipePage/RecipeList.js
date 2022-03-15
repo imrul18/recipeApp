@@ -3,28 +3,29 @@ import { Text, View, ImageBackground, StyleSheet, Image, TouchableOpacity, Custo
 
 import backgroundimage from './../../assets/images/backgroundimage.jpeg'
 
-const RecipeList = ({ route }) => {
+const RecipeList = ({ route, navigation }) => { 
+    const data = route.params?.data ? route.params.data : route.params
 
-    const data = route.params.data
+    console.log(data[0])
+
 
     const renderItem = ({ item }) => (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('recipe', { data: item })}>
             <Image source={item.recipe_img} style={styles.image} />
             <Text style={styles.text}>{item.recipe_name} </Text>
                 <Text style={styles.persontext}>{item?.recipe_person}</Text>
             
-        </View>
+        </TouchableOpacity>
     );
 
     return (
         <ImageBackground source={backgroundimage} style={styles.backgroundimage}>
             <View>
                 <FlatList
-                    data={data.recipelist}
+                    data={data}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                 />
-
             </View>
         </ImageBackground>
     )

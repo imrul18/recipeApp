@@ -1,57 +1,44 @@
 import React from "react";
-import { Text, View, ImageBackground, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
+import { Text, View, ImageBackground, StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native'
 const windowWidth = Dimensions.get('window').width;
 import backgroundimage from './../../assets/images/backgroundimage.jpeg'
 
 import totalrecipe from "../../assets/data/data";
-
-
 const data = totalrecipe;
 
-const catagory = (data) => {
-    return (
-        <View style={styles.category}>
-            <Text style={styles.categorytxt}>{data}</Text>
-        </View>
-    )
-}
-const subcatagory = (name, data, navigation) => {
-    return (
-        <TouchableOpacity style={styles.subcategory} onPress={() => navigation.navigate('recipelist', { data: data })}>
-            <Text style={styles.subcategorytext}>{name}</Text>
-        </TouchableOpacity>
-    )
-}
 const CategoryList = ({ navigation }) => {
+
+    const subcategory = (item) => {
+        return (
+            <TouchableOpacity style={styles.subcategory} onPress={() => navigation.navigate('recipelist', { data: item.recipelist })}>
+                <Text style={styles.subcategorytext}>{item.subcategoryName}</Text>
+            </TouchableOpacity>
+        )
+
+    }
+
+    const category = ({ item }) => (
+        <View style={styles.flatlistContainer}>
+            <View style={styles.category}>
+                <Text style={styles.categorytxt}>{item.categoryName} </Text>
+            </View>
+            {item.subcategory.map(element => {
+                return subcategory(element)
+            })}
+        </View>
+    );
 
     return (
         <View style={styles.container}>
             <ImageBackground source={backgroundimage} resizeMode='cover' style={styles.backgroundimage}>
-                <ScrollView>
-                    <View style={styles.scroll}>
-                    {catagory('ভাত')}
-                    {subcatagory('polao', data[0], navigation)}
-                    {subcatagory('vat', data[0], navigation)}
-                    {catagory('ভাত')}
-                    {subcatagory('polao', data[0], navigation)}
-                    {subcatagory('vat', data[0], navigation)}
-                    {catagory('ভাত')}
-                    {subcatagory('polao', data[0], navigation)}
-                    {subcatagory('vat', data[0], navigation)}
-                    {catagory('ভাত')}
-                    {subcatagory('polao', data[0], navigation)}
-                    {subcatagory('vat', data[0], navigation)}
-                    {catagory('ভাত')}
-                    {subcatagory('polao', data[0], navigation)}
-                    {subcatagory('vat', data[0], navigation)}
-                    {catagory('ভাত')}
-                    {subcatagory('polao', data[0], navigation)}
-                    {subcatagory('vat', data[0], navigation)}
-                    {catagory('ভাত')}
-                    {subcatagory('polao', data[0], navigation)}
-                    {subcatagory('vat', data[0], navigation)}
-                    </View>
-                </ScrollView>
+
+                <FlatList
+                    style={styles.FlatList}
+                    data={data}
+                    renderItem={category}
+                    keyExtractor={item => item.id}
+                />
+
             </ImageBackground>
         </View>
     )
@@ -64,9 +51,9 @@ const styles = StyleSheet.create({
     backgroundimage: {
         flex: 1,
     },
-    scroll: {
+    flatlistContainer: {
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: 'center',
     },
     image: {
         width: 250,
@@ -76,7 +63,7 @@ const styles = StyleSheet.create({
     },
     category: {
         backgroundColor: '#178C9E',
-        width: windowWidth*.9,
+        width: windowWidth * .9,
         height: 50,
         opacity: 1,
         borderRadius: 20,
@@ -91,7 +78,7 @@ const styles = StyleSheet.create({
     },
     subcategory: {
         backgroundColor: '#43A1B0',
-        width: windowWidth*.7,
+        width: windowWidth * .7,
         height: 50,
         opacity: .8,
         borderRadius: 20,

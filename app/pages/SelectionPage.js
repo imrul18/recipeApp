@@ -2,19 +2,21 @@ import React from "react";
 import { Text, View, ImageBackground, StyleSheet, Image, TouchableOpacity } from 'react-native'
 
 import backgroundimage from './../assets/images/backgroundimage.jpeg'
-import recipe from './../assets/images/recipe.jpg'
-import favourite from './../assets/images/favourite.jpg'
 
 const SelectionPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ImageBackground source={backgroundimage} resizeMode='cover' style={styles.backgroundimage}>
 
-        <TouchableOpacity onPress={()=>navigation.navigate('recipe')}>
-          <Image style={styles.image} source={recipe} />
+        <TouchableOpacity onPress={() => navigation.navigate('recipepage')}>
+          <View style={styles.recipe}>
+            <Text style={styles.text}>রেসিপি</Text>
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate('favourite')}>
-          <Image style={styles.image} source={favourite} />
+        <TouchableOpacity onPress={() => navigation.navigate('favourite')}>
+          <View style={styles.recipe}>
+            <Text style={styles.text}>পছন্দ</Text>
+          </View>
         </TouchableOpacity>
 
       </ImageBackground>
@@ -31,11 +33,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  image: {
+  recipe: {
+    backgroundColor: '#178C9E',
     width: 250,
-    height: 100,
-    margin: 20,
-    borderRadius: 50,
+    height: 60,
+    margin: 10,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: 'white',
+    fontSize: 36,
 
   }
 })
