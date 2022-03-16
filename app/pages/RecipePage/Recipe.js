@@ -1,52 +1,53 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, ImageBackground, StyleSheet, Image, TouchableOpacity, Dimensions, FlatList } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Product from "./Recipe/Product";
 import Process from "./Recipe/Process";
-import { addingRecipe } from "../../Redux/Favourite/Favourite";
+import { addingRecipe, removingRecipe } from "../../Redux/Favourite/Favourite";
 
 const Tab = createBottomTabNavigator();
 
 const Recipe = ({ route }) => {
+    const [favIcon, setFevIcon] = useState('heart-outline')
 
     const dispatch = useDispatch()
 
     const data = route.params.data
 
-    const addToFav = async (data) => {
-        var value= [];
-        try {
-            const avalue = await AsyncStorage.getItem('cartArray')
-            if(avalue !== null){
-                value = JSON.parse(avalue);
+    const { cartArray } = useSelector(state => state.favourite)
+
+    useEffect(() => {
+        cartArray.forEach(element => {
+            if (element.recipe_id === data.recipe_id) {
+                setFevIcon('heart')
             }
-        } catch (e) {
-            console.log(e)
+        });
+    }, [cartArray])
+
+
+    const addToFav = async (data) => {
+        if (favIcon == 'heart-outline') {
+            dispatch(addingRecipe(data))
+            setFevIcon('heart')
         }
-        value.push(data)
-        dispatch(addingRecipe(value))
-        try {
-            await AsyncStorage.setItem('cartArray', JSON.stringify(value))
-            console.log('set')
-        } catch (error) {
-            console.log(error)
+        else{
+            dispatch(removingRecipe(data))
+            setFevIcon('heart-outline')
         }
     }
-
-
 
     return (
         <>
             <View style={styles.imagetag}>
                 <ImageBackground source={data.recipe_img} style={styles.image}>
                     <TouchableOpacity onPress={() => addToFav(data)}>
-                        <Icon name="heart" size={60} color="red" />
+                        <Icon name={favIcon} size={60} color="red" />
                     </TouchableOpacity>
                 </ImageBackground>
             </View>

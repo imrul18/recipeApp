@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from "react-redux"
 import Store from "./app/Redux/Store"
 
+
 import SelectionPage from "./app/pages/SelectionPage";
 import FavouritePage from "./app/pages/FavouritePage";
 import RecipePage from "./app/pages/RecipePage";
@@ -13,6 +14,7 @@ import RecipePage from "./app/pages/RecipePage";
 const Stack = createStackNavigator();
 
 const App = () => {
+
   return (
     <Provider store={Store}>
       <NavigationContainer>

@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { Text, View, ImageBackground, StyleSheet, Image, TouchableOpacity, CustomImage, FlatList } from 'react-native'
+import { useSelector, useDispatch } from "react-redux"
 
 import backgroundimage from './../../assets/images/backgroundimage.jpeg'
 
 const RecipeList = ({ route, navigation }) => { 
-    const data = route.params?.data ? route.params.data : route.params[0]
+    const { cartArray } = useSelector(state => state.favourite)
+
+    const data = route.params?.data ? route.params.data : cartArray
 
     const renderItem = ({ item }) => (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('recipe', { data: item })}>

@@ -1,9 +1,29 @@
 import React,{useEffect} from "react";
 import { Text, View, ImageBackground, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { useDispatch } from 'react-redux'
+import { addingRecipefromlocal } from "./../Redux/Favourite/Favourite";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 import backgroundimage from './../assets/images/backgroundimage.jpeg'
 
 const SelectionPage = ({ navigation }) => {  
+
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    const setlocal = async () => {
+      try {
+          const value = await AsyncStorage.getItem('@cartArray')
+          if(value !== null){
+            dispatch(addingRecipefromlocal(JSON.parse(value)))
+          }
+      } catch (error) {
+          console.log(error)
+      }
+  }
+  setlocal()      
+  },[])
 
   return (
     <View style={styles.container}>
